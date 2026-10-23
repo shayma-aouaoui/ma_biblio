@@ -1,7 +1,9 @@
 
 import 'package:flutter/material.dart';
-import 'screens/parametres_screen.dart';
 import 'screens/catalogue_screen.dart';
+import 'screens/galerie_screen.dart';
+import 'screens/ma_liste_screen.dart';
+import 'screens/parametres_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -77,18 +79,48 @@ class _HomePageState extends State<HomePage> {
               ),
               const SizedBox(height: 24),
 
-              // Bouton pour accéder au catalogue
-              FilledButton.icon(
-                icon: const Icon(Icons.menu_book),
-                label: const Text('Voir le catalogue'),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const CatalogueScreen(),
-                    ),
-                  );
-                },
+              Wrap(
+                spacing: 12,
+                runSpacing: 12,
+                alignment: WrapAlignment.center,
+                children: [
+                  FilledButton.icon(
+                    icon: const Icon(Icons.menu_book),
+                    label: const Text('Voir le catalogue'),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const CatalogueScreen(),
+                        ),
+                      );
+                    },
+                  ),
+                  FilledButton.tonalIcon(
+                    icon: const Icon(Icons.grid_view),
+                    label: const Text('Galerie'),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const GalerieScreen(),
+                        ),
+                      );
+                    },
+                  ),
+                  FilledButton.tonalIcon(
+                    icon: const Icon(Icons.favorite_border),
+                    label: const Text('Ma liste'),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const MaListeScreen(),
+                        ),
+                      );
+                    },
+                  ),
+                ],
               ),
             ],
           ),
