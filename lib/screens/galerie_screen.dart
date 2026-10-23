@@ -1,59 +1,96 @@
 import 'package:flutter/material.dart';
 
 import '../data/livres_data.dart';
+import '../models/livre.dart';
+import '../widgets/livre_card.dart';
+import '../widgets/livre_grid_item.dart';
+import 'detail_screen.dart';
 
-class GalerieScreen extends StatelessWidget {
+class GalerieScreen extends StatefulWidget {
   const GalerieScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Galerie')),
-      body: Padding(
-        padding: const EdgeInsets.all(10),
-        child: GridView.count(
-          crossAxisCount: 2,
-          mainAxisSpacing: 10,
-          crossAxisSpacing: 10,
-          childAspectRatio: 0.8,
-          children: livres.map((livre) {
-            return Card(
-              color: livre.couleur,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Icon(
-                    Icons.menu_book,
-                    color: Colors.white,
-                    size: 32,
-                  ),
-                  const SizedBox(height: 12),
-                  Text(
-                    livre.titre,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    livre.auteur,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(color: Colors.white70),
-                  ),
-                ],
-              ),
-            );
-          }).toList(),
-        ),
+  State<GalerieScreen> createState() => _GalerieScreenState();
+}
+
+class _GalerieScreenState extends State<GalerieScreen> {
+  late final List<Livre> _livres = List<Livre>.of(livres);
+  bool _afficherGrille = true;
+
+  void _trierParNote() {
+    setState(() {
+      _livres.sort((a, b) => b.note.compareTo(a.note));
+    });
+  }
+
+  void _ouvrirDetail(Livre livre) {
+    Navigator.push(
+      context,
+      MaterialPageRoute<void>(
+        builder: (context) => DetailScreen(livre: livre),
       ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final largeur = MediaQuery.of(context).size.width;
+    final colonnes = largeur < 600
+        ? 2
+        : largeur <= 900
+            ? 3
+            : 4;
+
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Galerie'),
+        actions: [
+          IconButton(
+            tooltip: _afficherGrille ? 'Afficher la liste' : 'Afficher la grille',
+            icon: Icon(_afficherGrille ? Icons.view_list : Icons.grid_view),
+            onPressed: () {
+              setState(() {
+                _afficherGrille = !_afficherGrille;
+              });
+            },
+          ),
+          IconButton(
+            tooltip: 'Trier par note décroissante',
+            icon: const Icon(Icons.sort),
+            onPressed: _trierParNote,
+          ),
+        ],
+      ),
+      body: _afficherGrille
+          ? Padding(
+              padding: const EdgeInsets.all(12),
+              child: GridView.builder(
+                itemCount: _livres.length,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: colonnes,
+                  mainAxisSpacing: 12,
+                  crossAxisSpacing: 12,
+                  childAspectRatio: 0.7,
+                ),
+                itemBuilder: (context, index) {
+                  final livre = _livres[index];
+                  return LivreGridItem(
+                    livre: livre,
+                    onTap: () => _ouvrirDetail(livre),
+                  );
+                },
+              ),
+            )
+          : ListView.builder(
+              itemCount: _livres.length,
+              itemBuilder: (context, index) {
+                final livre = _livres[index];
+                return LivreCard(
+                  livre: livre,
+                  onTap: () => _ouvrirDetail(livre),
+                );
+              },
+            ),
     );
   }
 }
