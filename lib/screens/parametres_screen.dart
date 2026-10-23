@@ -1,4 +1,5 @@
 
+
 import 'package:flutter/material.dart';
 
 class ParametresScreen extends StatelessWidget {
@@ -7,66 +8,54 @@ class ParametresScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Paramètres'),
-      ),
-      body: Column(
-        children: [
-          
-          ListTile(
-            leading: const Icon(Icons.person),
-            title: const Text('Mon profil'),
-            subtitle: const Text('Nom, e-mail, mot de passe'),
-            trailing: const Icon(Icons.chevron_right),
-            onTap: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text('Profil sélectionné'),
-                ),
-              );
-            },
-          ),
-
-          
-          ListTile(
-            leading: const Icon(Icons.notifications),
-            title: const Text('Notifications'),
-            tileColor: Colors.blue.shade50,
-            iconColor: Colors.blue,
-            textColor: Colors.blue.shade900,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
+      appBar: AppBar(title: const Text('Paramètres')),
+      body: ListView(
+        padding: const EdgeInsets.all(8),
+        children: ListTile.divideTiles(
+          context: context,
+          tiles: const [
+            ListTile(
+              leading: Icon(Icons.person),
+              title: Text('Mon profil'),
             ),
-          ),
-
-          
-          ListTile(
-            leading: const Icon(Icons.language),
-            title: const Text('Langue'),
-            subtitle: const Text('Français'),
-          ),
-
-          
-          ListTile(
-            leading: const Icon(Icons.info),
-            title: const Text('À propos'),
-
-            
-            // Réduit la hauteur de la tuile.
-            dense: true,
-
-            // Q1.4 - Test 2 :
-            // Décommente ces lignes pour tester isThreeLine.
-            // isThreeLine: true,
-            // subtitle: const Text(
-            //   'Version de l’application\nInformations générales',
-            // ),
-
-            // Q1.4 - Test 3 :
-            // Décommente cette ligne pour désactiver la tuile.
-            // enabled: false,
-          ),
-        ],
+            ListTile(
+              leading: Icon(Icons.notifications),
+              title: Text('Notifications'),
+            ),
+            ListTile(
+              leading: Icon(Icons.lock),
+              title: Text('Confidentialité'),
+            ),
+            ListTile(
+              leading: Icon(Icons.language),
+              title: Text('Langue'),
+            ),
+            ListTile(
+              leading: Icon(Icons.palette),
+              title: Text('Apparence'),
+            ),
+            ListTile(
+              leading: Icon(Icons.storage),
+              title: Text('Stockage'),
+            ),
+            ListTile(
+              leading: Icon(Icons.security),
+              title: Text('Sécurité'),
+            ),
+            ListTile(
+              leading: Icon(Icons.help),
+              title: Text('Aide'),
+            ),
+            ListTile(
+              leading: Icon(Icons.info),
+              title: Text('À propos'),
+            ),
+            ListTile(
+              leading: Icon(Icons.logout),
+              title: Text('Déconnexion'),
+            ),
+          ],
+        ).toList(),
       ),
     );
   }
