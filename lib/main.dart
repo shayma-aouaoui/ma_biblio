@@ -1,4 +1,6 @@
+
 import 'package:flutter/material.dart';
+import 'screens/parametres_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -7,7 +9,6 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -17,6 +18,7 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -30,6 +32,20 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('MaBiblio'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.settings),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) =>
+                      const ParametresScreen(),
+                ),
+              );
+            },
+          ),
+        ],
       ),
       body: const Center(
         child: Text('Bienvenue dans MaBiblio'),
